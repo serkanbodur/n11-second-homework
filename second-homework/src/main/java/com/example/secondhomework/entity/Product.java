@@ -1,4 +1,4 @@
-package entity;
+package com.example.secondhomework.entity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
