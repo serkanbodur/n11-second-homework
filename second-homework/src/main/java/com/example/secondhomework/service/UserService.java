@@ -29,4 +29,13 @@ public class UserService {
         return userDAO.findUserByUsername(username);
     }
 
+    public User findByPhone(String phone)
+    {
+        Boolean isExist = userDAO.existsUserByPhone(phone);
+        if(!isExist)
+        {
+            throw new UserIsNotExistException("User with phone : " + phone + " is not exists!");
+        }
+        return userDAO.findUserByPhone(phone);
+    }
 }
