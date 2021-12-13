@@ -2,6 +2,7 @@ package com.example.secondhomework.service;
 
 import com.example.secondhomework.dao.UserDAO;
 import com.example.secondhomework.entity.User;
+import com.example.secondhomework.exception.UserIsNotExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,5 +18,15 @@ public class UserService {
         return userDAO.findAll();
     }
 
+    public User findByUsername(String username)
+    {
+        Boolean isExist = userDAO.existsUserByUsername(username);
+
+        if (!isExist)
+        {
+            throw new UserIsNotExistException("User with username : " + username + " is not exists!");
+        }
+        return userDAO.findUserByUsername(username);
+    }
 
 }
