@@ -38,4 +38,10 @@ public class UserService {
     public User save(User user) {
         return userDAO.save(user);
     }
+
+    public void deleteById(Long id)
+    {
+        userDAO.deleteById(id);
+    }
+
 }

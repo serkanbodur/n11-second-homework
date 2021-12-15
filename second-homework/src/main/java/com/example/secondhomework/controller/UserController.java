@@ -28,15 +28,18 @@ public class UserController {
     }
 
     @GetMapping("/phone/{phone}")
-    public User findByPhone(@PathVariable String phone)
-    {
+    public User findByPhone(@PathVariable String phone) {
         return userService.findByPhone(phone);
     }
 
     @PostMapping()
-    public User saveUser(@RequestBody User user)
-    {
+    public User saveUser(@RequestBody User user) {
         return userService.save(user);
+    }
+
+    @DeleteMapping("{id}")
+    public void deleteUser(@PathVariable Long id) {
+        userService.deleteById(id);
     }
 
 }
