@@ -1,5 +1,7 @@
 package com.example.secondhomework.controller;
 
+import com.example.secondhomework.converter.UserConverter;
+import com.example.secondhomework.dto.UserDTO;
 import com.example.secondhomework.entity.User;
 import com.example.secondhomework.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +20,10 @@ public class UserController {
 
 
     @GetMapping("")
-    public List<User> findAll() {
-        return userService.findAll();
+    public List<UserDTO> findAll() {
+        List<User> users = userService.findAll();
+        List<UserDTO>  userDTOs= UserConverter.INSTANCE.convertAllUsersToUserDTOs(users);
+        return userDTOs;
     }
 
     @GetMapping("/username/{username}")
