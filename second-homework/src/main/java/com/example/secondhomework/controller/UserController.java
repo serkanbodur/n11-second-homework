@@ -22,7 +22,7 @@ public class UserController {
     @GetMapping("")
     public List<UserDTO> findAll() {
         List<User> users = userService.findAll();
-        List<UserDTO>  userDTOs= UserConverter.INSTANCE.convertAllUsersToUserDTOs(users);
+        List<UserDTO> userDTOs = UserConverter.INSTANCE.convertAllUsersToUserDTOs(users);
         return userDTOs;
     }
 
@@ -34,8 +34,9 @@ public class UserController {
     }
 
     @GetMapping("/phone/{phone}")
-    public User findByPhone(@PathVariable String phone) {
-        return userService.findByPhone(phone);
+    public UserDTO findByPhone(@PathVariable String phone) {
+        var user = userService.findByPhone(phone);
+        return UserConverter.INSTANCE.convertUserToUserDTOs(user);
     }
 
     @PostMapping()
