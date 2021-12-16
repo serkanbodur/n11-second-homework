@@ -30,18 +30,20 @@ public class UserController {
     public UserDTO findByUsername(@PathVariable String username) {
 
         var user = userService.findByUsername(username);
-        return UserConverter.INSTANCE.convertUserToUserDTOs(user);
+        return UserConverter.INSTANCE.convertUserToUserDTO(user);
     }
 
     @GetMapping("/phone/{phone}")
     public UserDTO findByPhone(@PathVariable String phone) {
         var user = userService.findByPhone(phone);
-        return UserConverter.INSTANCE.convertUserToUserDTOs(user);
+        return UserConverter.INSTANCE.convertUserToUserDTO(user);
     }
 
     @PostMapping()
-    public User saveUser(@RequestBody User user) {
-        return userService.save(user);
+    public UserDTO saveUser(@RequestBody UserDTO userDTO) {
+        var user = UserConverter.INSTANCE.convertUserDTOToUser(userDTO);
+        user = userService.save(user);
+        return UserConverter.INSTANCE.convertUserToUserDTO(user);
     }
 
     @DeleteMapping("{id}")
