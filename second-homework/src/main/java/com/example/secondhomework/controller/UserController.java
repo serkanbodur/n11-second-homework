@@ -27,8 +27,10 @@ public class UserController {
     }
 
     @GetMapping("/username/{username}")
-    public User findByUsername(@PathVariable String username) {
-        return userService.findByUsername(username);
+    public UserDTO findByUsername(@PathVariable String username) {
+
+        var user = userService.findByUsername(username);
+        return UserConverter.INSTANCE.convertUserToUserDTOs(user);
     }
 
     @GetMapping("/phone/{phone}")
