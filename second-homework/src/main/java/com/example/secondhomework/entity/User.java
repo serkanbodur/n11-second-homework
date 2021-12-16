@@ -1,11 +1,12 @@
 package com.example.secondhomework.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 //Table "User" is a keyword in postgre,so we can this table create with this way
 @Table(name = "\"user\"")
-public class User {
+public class User implements Serializable {
     @SequenceGenerator(name = "generator", sequenceName = "USER_ID_SEQ")
     @Id
     @GeneratedValue(generator = "generator")

@@ -1,11 +1,15 @@
 package com.example.secondhomework.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "PRODUCTCOMMENT")
-public class ProductComment {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","User"})
+public class ProductComment implements Serializable {
     @SequenceGenerator(name = "generator", sequenceName = "PRODUCTCOMMENT_ID_SEQ")
     @Id
     @GeneratedValue(generator = "generator")
