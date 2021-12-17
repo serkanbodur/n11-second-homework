@@ -4,6 +4,8 @@ import com.example.secondhomework.converter.UserConverter;
 import com.example.secondhomework.dto.UserDTO;
 import com.example.secondhomework.entity.User;
 import com.example.secondhomework.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.aspectj.lang.annotation.RequiredTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,13 +13,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Objects;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/users/")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
-
+    private final UserService userService;
 
     @GetMapping("")
     public List<UserDTO> findAll() {
@@ -46,9 +47,11 @@ public class UserController {
         return UserConverter.INSTANCE.convertUserToUserDTO(user);
     }
 
-    @DeleteMapping("{id}")
-    public void deleteUser(@PathVariable Long id) {
-        userService.deleteById(id);
+    @DeleteMapping("{username}/{phone}")
+    public void deleteUser(@PathVariable String username, @PathVariable String phone) {
+        var user = userService.findByUsernameAndPhone(username, phone);
+        var userDTO = UserConverter.INSTANCE.convertUserToUserDTO(user);
+        userService.deleteByUsernameAndPhone(userDTO.getUsername(),userDTO.getPhone());
     }
 
     @PutMapping("/{id}")

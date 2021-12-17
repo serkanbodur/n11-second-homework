@@ -1,5 +1,8 @@
 package com.example.secondhomework.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -9,6 +12,8 @@ import java.util.Date;
 @Table(
         name = "PRODUCT"
 )
+@Getter
+@Setter
 public class Product implements Serializable {
 
     @SequenceGenerator(name = "generator", sequenceName = "PRODUCT_ID_SEQ")
@@ -33,43 +38,4 @@ public class Product implements Serializable {
     )
     private Category category;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public Date getRegistrationDate() {
-        return registrationDate;
-    }
-
-    public void setRegistrationDate(Date registrationDate) {
-        this.registrationDate = registrationDate;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
 }
