@@ -1,6 +1,8 @@
 package com.example.secondhomework.service;
 
+import com.example.secondhomework.converter.UserConverter;
 import com.example.secondhomework.dao.UserDAO;
+import com.example.secondhomework.dto.UserDTO;
 import com.example.secondhomework.entity.User;
 import com.example.secondhomework.exception.UserIsNotExistException;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 
 @Transactional // For delete method
 @Service
@@ -62,16 +65,21 @@ public class UserService {
     }
     */
 
-    public User update(User user) {
-        var updatedUser = new User();
-        updatedUser.setId(user.getId());
-        updatedUser.setUsername(user.getUsername());
-        updatedUser.setName(user.getName());
-        updatedUser.setSurname(user.getSurname());
-        updatedUser.setPhone(user.getPhone());
-        updatedUser.setEmail(user.getEmail());
+    public UserDTO update(UserDTO userDTO) {
 
-        return userDAO.save(updatedUser);
+        var user = userDAO.findById(userDTO.getId()).orElse(null);
+        if(Objects.isNull(user))
+        {
+            throw new UserIsNotExistException("User id : " + userDTO.getId() + " is not found!");
+        }
+        user.setId(userDTO.getId());
+        user.setName(userDTO.getName());
+        user.setSurname(userDTO.getSurname());
+        user.setEmail(userDTO.getEmail());
+        user.setPhone(userDTO.getPhone());
+        user.setUsername(userDTO.getUsername());
+        user = userDAO.save(user);
+        return UserConverter.INSTANCE.convertUserToUserDTO(user);
     }
 
 }
