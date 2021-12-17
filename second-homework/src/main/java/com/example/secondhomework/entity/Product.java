@@ -1,6 +1,9 @@
 package com.example.secondhomework.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -12,8 +15,12 @@ import java.util.Date;
 @Table(
         name = "PRODUCT"
 )
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "productComment"})
+
 public class Product implements Serializable {
 
     @SequenceGenerator(name = "generator", sequenceName = "PRODUCT_ID_SEQ")

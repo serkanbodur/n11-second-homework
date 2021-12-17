@@ -47,6 +47,7 @@ public class UserService {
     }
 
     public User findByUsernameAndPhone(String username, String phone){return userDAO.findUserByUsernameAndPhone(username, phone);}
+
     @Transactional // For delete method
     public void deleteByUsernameAndPhone(String username, String phone) {
 

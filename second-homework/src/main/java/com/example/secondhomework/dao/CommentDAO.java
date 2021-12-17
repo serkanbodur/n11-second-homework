@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface CommentDAO extends JpaRepository<ProductComment, Long> {
-    @Query("select product_comment from ProductComment product_comment where product_comment.user.id = :userId")
+    //@Query("select product_comment from ProductComment product_comment where product_comment.user.id = :userId")
     List<ProductComment> findAllByUserId(Long userId);
-
+    List<ProductComment> findAllByProductId(Long productId);
 }

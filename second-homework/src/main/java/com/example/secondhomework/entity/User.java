@@ -1,14 +1,20 @@
 package com.example.secondhomework.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-//Table "User" is a keyword in postgre,so we can this table create with this way
+//Table "User" is a keyword in postgre,so we can create this table with this way
 @Table(name = "\"user\"")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "productComment"})
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class User implements Serializable {
