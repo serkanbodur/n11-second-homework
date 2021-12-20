@@ -55,7 +55,11 @@ public class UserService {
         return userDTO;
     }
 
-    @Transactional // For delete method
+    // Transactional for delete method
+    // First it finds the id which will be deleted as username and phone
+    // Then make delete process
+    // So there are two different queries, need a transactional annotation
+    @Transactional
     public UserDTO deleteByUsernameAndPhone(String username, String phone) {
         Boolean isExists = userDAO.existsByUsernameAndPhone(username, phone);
         if(!isExists) {
@@ -69,11 +73,11 @@ public class UserService {
     }
 
     public UserDTO update(UserDTO userDTO,Long id) {
-
         var user = userDAO.findById(id).orElse(null);
         if(Objects.isNull(user)) {
             throw new UserIsNotExistException("User id : " + userDTO.getId() + " is not found!");
         }
+
         user.setId(id);
         user.setName(userDTO.getName());
         user.setSurname(userDTO.getSurname());
@@ -81,6 +85,7 @@ public class UserService {
         user.setPhone(userDTO.getPhone());
         user.setUsername(userDTO.getUsername());
         user = userDAO.save(user);
-        return UserConverter.INSTANCE.convertUserToUserDTO(user);
+        userDTO =  UserConverter.INSTANCE.convertUserToUserDTO(user);
+        return userDTO;
     }
 }
