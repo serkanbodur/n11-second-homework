@@ -60,15 +60,9 @@ public class UserService {
         userDAO.deleteByUsernameAndPhone(username, phone);
     }
 
-   /*
-    public User findById(Long id) {
-        return userDAO.findById(id).orElse(null);
-    }
-    */
+    public UserDTO update(UserDTO userDTO,Long id) {
 
-    public UserDTO update(UserDTO userDTO) {
-
-        var user = userDAO.findById(userDTO.getId()).orElse(null);
+        var user = userDAO.findById(id).orElse(null);
         if(Objects.isNull(user))
         {
             throw new UserIsNotExistException("User id : " + userDTO.getId() + " is not found!");

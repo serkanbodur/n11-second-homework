@@ -5,13 +5,17 @@ import com.example.secondhomework.dto.UserDTO;
 import com.example.secondhomework.entity.User;
 import com.example.secondhomework.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
+import org.apache.logging.log4j.message.Message;
 import org.aspectj.lang.annotation.RequiredTypes;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -20,44 +24,48 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("")
-    public List<UserDTO> findAll() {
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public ResponseEntity<List<UserDTO>> findAll() {
         List<User> users = userService.findAll();
         List<UserDTO> userDTOs = UserConverter.INSTANCE.convertAllUsersToUserDTOs(users);
-        return userDTOs;
+        return new ResponseEntity<>(userDTOs, HttpStatus.OK);
     }
 
-    @GetMapping("/username/{username}")
-    public UserDTO findByUsername(@PathVariable String username) {
+    // TODO check the same url path seperate different params
+    @RequestMapping(params="username", value = "/", method = RequestMethod.GET)
+    public ResponseEntity<UserDTO> findByUsername(@RequestParam("username") String username) {
 
         var user = userService.findByUsername(username);
-        return UserConverter.INSTANCE.convertUserToUserDTO(user);
+        var userDTO = UserConverter.INSTANCE.convertUserToUserDTO(user);
+        return new ResponseEntity<>(userDTO,HttpStatus.OK);
     }
 
-    @GetMapping("/phone/{phone}")
-    public UserDTO findByPhone(@PathVariable String phone) {
+    @RequestMapping(params="phone", value = "/", method = RequestMethod.GET)
+    public ResponseEntity<UserDTO> findByPhone(@RequestParam("phone") String phone) {
         var user = userService.findByPhone(phone);
-        return UserConverter.INSTANCE.convertUserToUserDTO(user);
+        var userDTO = UserConverter.INSTANCE.convertUserToUserDTO(user);
+        return new ResponseEntity<>(userDTO,HttpStatus.OK);
     }
 
-    @PostMapping()
-    public UserDTO saveUser(@RequestBody UserDTO userDTO) {
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<UserDTO> saveUser(@RequestBody UserDTO userDTO) {
         var user = UserConverter.INSTANCE.convertUserDTOToUser(userDTO);
         user = userService.save(user);
-        return UserConverter.INSTANCE.convertUserToUserDTO(user);
+        userDTO = UserConverter.INSTANCE.convertUserToUserDTO(user);
+        return new ResponseEntity<>(userDTO, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("{username}/{phone}")
-    public void deleteUser(@PathVariable String username, @PathVariable String phone) {
+    @RequestMapping(value = "{username}/{phone}", method = RequestMethod.DELETE)
+    public void deleteUser(@RequestParam("username") String username, @RequestParam("phone") String phone) {
         var user = userService.findByUsernameAndPhone(username, phone);
         var userDTO = UserConverter.INSTANCE.convertUserToUserDTO(user);
         userService.deleteByUsernameAndPhone(userDTO.getUsername(),userDTO.getPhone());
     }
 
     @PutMapping("/{id}")
-    public UserDTO update(@PathVariable Long id, @RequestBody UserDTO userDTO) {
-        userDTO.setId(id);
-        return userService.update(userDTO);
+    public ResponseEntity<UserDTO> update(@PathVariable Long id, @RequestBody UserDTO userDTO) {
+
+        return new ResponseEntity<>(userService.update(userDTO,id),HttpStatus.OK);
     }
 
 }

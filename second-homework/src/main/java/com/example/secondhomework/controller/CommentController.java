@@ -8,6 +8,8 @@ import com.example.secondhomework.exception.ProductCommentIsNotException;
 import com.example.secondhomework.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,28 +22,29 @@ public class CommentController {
     private final CommentService commentService;
 
     @GetMapping("/users/{userId}")
-    public List<CommentDTO> productCommentsByUserId (@PathVariable Long userId) {
+    public ResponseEntity<List<CommentDTO>> productCommentsByUserId (@PathVariable Long userId) {
 
         List<ProductComment> productComments = commentService.findByUserId(userId);
         List<CommentDTO> commentDTOs = CommentConverter.INSTANCE.convertProductCommentsToCommentDTOs(productComments);
-        return commentDTOs;
+        return new ResponseEntity<>(commentDTOs, HttpStatus.OK);
 
     }
 
     @GetMapping("/products/{productId}")
-    public List<CommentDTO> productCommentByProductId(@PathVariable Long productId)
+    public ResponseEntity<List<CommentDTO>> productCommentByProductId(@PathVariable Long productId)
     {
         List<ProductComment> productComments = commentService.findByProductId(productId);
         List<CommentDTO> commentDTOs = CommentConverter.INSTANCE.convertProductCommentsToCommentDTOs(productComments);
-        return  commentDTOs;
+        return new ResponseEntity<>(commentDTOs,HttpStatus.OK);
     }
 
     @PostMapping()
-    public CommentDTO saveComment(@RequestBody CommentDTO commentDTO)
+    public ResponseEntity<CommentDTO> saveComment(@RequestBody CommentDTO commentDTO)
     {
         var comment = CommentConverter.INSTANCE.convertCommentDTOToProductComment(commentDTO);
         comment = commentService.save(comment);
-        return CommentConverter.INSTANCE.convertProductCommentToCommentDTO(comment);
+        var responseCommentDTO = CommentConverter.INSTANCE.convertProductCommentToCommentDTO(comment);
+        return new ResponseEntity<>(responseCommentDTO,HttpStatus.CREATED);
     }
 
     @DeleteMapping("{id}")
