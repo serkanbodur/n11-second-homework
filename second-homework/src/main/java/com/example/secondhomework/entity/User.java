@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 //Table "User" is a keyword in postgre,so we can create this table with this way
@@ -18,7 +19,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class User implements Serializable {
-    @SequenceGenerator(name = "generator", sequenceName = "USER_ID_SEQ")
+    @SequenceGenerator(name = "generator", sequenceName = "USER_ID_SEQ", allocationSize = 1)
     @Id
     @GeneratedValue(generator = "generator")
     @Column(name = "ID", nullable = false)
@@ -39,5 +40,7 @@ public class User implements Serializable {
     @Column(name = "username", nullable = false, length = 20)
     private String username;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<ProductComment> productCommentList;
 
 }

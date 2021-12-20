@@ -20,54 +20,61 @@ public class UserService {
 
     private final UserDAO userDAO;
 
-    public List<User> findAll() {
-        return userDAO.findAll();
+    public List<UserDTO> findAll() {
+        List<User> users = userDAO.findAll();
+        List<UserDTO> userDTOs = UserConverter.INSTANCE.convertAllUsersToUserDTOs(users);
+        return userDTOs;
     }
 
-    public User findByUsername(String username) {
-        Boolean isExist = userDAO.existsUserByUsername(username);
-
+    public UserDTO findByUsername(String username) {
+        Boolean isExist = userDAO.existsByUsername(username);
         if (!isExist) {
             throw new UserIsNotExistException("User with username : " + username + " is not exists!");
         }
-        return userDAO.findUserByUsername(username);
+
+        var user = userDAO.findByUsername(username);
+        var userDTO = UserConverter.INSTANCE.convertUserToUserDTO(user);
+        return userDTO;
     }
 
-
-    public User findByPhone(String phone) {
-        Boolean isExist = userDAO.existsUserByPhone(phone);
+    public UserDTO findByPhone(String phone) {
+        Boolean isExist = userDAO.existsByPhone(phone);
         if (!isExist) {
             throw new UserIsNotExistException("User with phone : " + phone + " is not exists!");
         }
-        return userDAO.findUserByPhone(phone);
+
+        var user = userDAO.findByPhone(phone);
+        var userDTO = UserConverter.INSTANCE.convertUserToUserDTO(user);
+        return userDTO;
     }
 
-    public User save(User user) {
-        return userDAO.save(user);
+    public UserDTO save(UserDTO userDTO) {
+        var user = UserConverter.INSTANCE.convertUserDTOToUser(userDTO);
+        user = userDAO.save(user);
+        userDTO = UserConverter.INSTANCE.convertUserToUserDTO(user);
+        return userDTO;
     }
-
-    public User findByUsernameAndPhone(String username, String phone){return userDAO.findUserByUsernameAndPhone(username, phone);}
 
     @Transactional // For delete method
-    public void deleteByUsernameAndPhone(String username, String phone) {
-
+    public UserDTO deleteByUsernameAndPhone(String username, String phone) {
         Boolean isExists = userDAO.existsByUsernameAndPhone(username, phone);
-
-        if(!isExists)
-        {
+        if(!isExists) {
             throw new UserIsNotExistException("User phone : " + phone + " and user username : " + username + " is not matching with each other!");
         }
+
+        var user = userDAO.findByUsernameAndPhone(username, phone);
         userDAO.deleteByUsernameAndPhone(username, phone);
+        var userDTO = UserConverter.INSTANCE.convertUserToUserDTO(user);
+        return userDTO;
     }
 
     public UserDTO update(UserDTO userDTO,Long id) {
 
         var user = userDAO.findById(id).orElse(null);
-        if(Objects.isNull(user))
-        {
+        if(Objects.isNull(user)) {
             throw new UserIsNotExistException("User id : " + userDTO.getId() + " is not found!");
         }
-        user.setId(userDTO.getId());
+        user.setId(id);
         user.setName(userDTO.getName());
         user.setSurname(userDTO.getSurname());
         user.setEmail(userDTO.getEmail());
@@ -76,5 +83,4 @@ public class UserService {
         user = userDAO.save(user);
         return UserConverter.INSTANCE.convertUserToUserDTO(user);
     }
-
 }

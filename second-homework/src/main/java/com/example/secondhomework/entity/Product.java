@@ -23,7 +23,7 @@ import java.util.Date;
 
 public class Product implements Serializable {
 
-    @SequenceGenerator(name = "generator", sequenceName = "PRODUCT_ID_SEQ")
+    @SequenceGenerator(name = "generator", sequenceName = "PRODUCT_ID_SEQ", allocationSize = 1)
     @Id
     @GeneratedValue(generator = "generator")
     @Column(name = "ID", nullable = false)

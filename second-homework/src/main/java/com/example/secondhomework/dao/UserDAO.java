@@ -9,12 +9,12 @@ import javax.transaction.Transactional;
 
 public interface UserDAO extends JpaRepository<User, Long> {
 
-    User findUserByUsername(String username);
-    Boolean existsUserByUsername(String username);
-    User findUserByPhone(String phone);
-    Boolean existsUserByPhone(String phone);
+    User findByUsername(String username);
+    Boolean existsByUsername(String username);
+    User findByPhone(String phone);
+    Boolean existsByPhone(String phone);
     Boolean existsByUsernameAndPhone(String username, String phone);
-    User findUserByUsernameAndPhone(String username, String phone);
+    User findByUsernameAndPhone(String username, String phone);
 
     void deleteByUsernameAndPhone(String username, String phone);
 }

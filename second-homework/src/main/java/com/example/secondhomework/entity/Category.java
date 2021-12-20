@@ -15,7 +15,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Category implements Serializable {
-    @SequenceGenerator(name = "generator", sequenceName = "CATEGORY_ID_SEQ")
+    @SequenceGenerator(name = "generator", sequenceName = "CATEGORY_ID_SEQ", allocationSize = 1)
     @Id
     @GeneratedValue(generator = "generator")
     @Column(name = "ID", nullable = false)

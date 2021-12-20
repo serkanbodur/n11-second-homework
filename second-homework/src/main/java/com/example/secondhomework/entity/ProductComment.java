@@ -15,7 +15,7 @@ import java.util.Date;
 @AllArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler","User"})
 public class ProductComment implements Serializable {
-    @SequenceGenerator(name = "generator", sequenceName = "PRODUCTCOMMENT_ID_SEQ")
+    @SequenceGenerator(name = "generator", sequenceName = "PRODUCTCOMMENT_ID_SEQ", allocationSize = 1)
     @Id
     @GeneratedValue(generator = "generator")
     @Column(name = "ID", nullable = false)
@@ -34,7 +34,7 @@ public class ProductComment implements Serializable {
     )
     private Product product;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_USER",
             foreignKey = @ForeignKey(name = "FK_COMMENT_USER_ID")
     )

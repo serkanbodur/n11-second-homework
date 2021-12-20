@@ -26,46 +26,38 @@ public class UserController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity<List<UserDTO>> findAll() {
-        List<User> users = userService.findAll();
-        List<UserDTO> userDTOs = UserConverter.INSTANCE.convertAllUsersToUserDTOs(users);
+        var userDTOs = userService.findAll();
         return new ResponseEntity<>(userDTOs, HttpStatus.OK);
     }
 
-    // TODO check the same url path seperate different params
-    @RequestMapping(params="username", value = "/", method = RequestMethod.GET)
-    public ResponseEntity<UserDTO> findByUsername(@RequestParam("username") String username) {
-
-        var user = userService.findByUsername(username);
-        var userDTO = UserConverter.INSTANCE.convertUserToUserDTO(user);
+    @GetMapping(value = "/username/{username}")
+    public ResponseEntity<UserDTO> findByUsername(@RequestParam String username) {
+        var userDTO = userService.findByUsername(username);
         return new ResponseEntity<>(userDTO,HttpStatus.OK);
     }
 
-    @RequestMapping(params="phone", value = "/", method = RequestMethod.GET)
-    public ResponseEntity<UserDTO> findByPhone(@RequestParam("phone") String phone) {
-        var user = userService.findByPhone(phone);
-        var userDTO = UserConverter.INSTANCE.convertUserToUserDTO(user);
+    @RequestMapping(value = "/phone/{phone}", method = RequestMethod.GET)
+    public ResponseEntity<UserDTO> findByPhone(@RequestParam String phone) {
+        var userDTO = userService.findByPhone(phone);
         return new ResponseEntity<>(userDTO,HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<UserDTO> saveUser(@RequestBody UserDTO userDTO) {
-        var user = UserConverter.INSTANCE.convertUserDTOToUser(userDTO);
-        user = userService.save(user);
-        userDTO = UserConverter.INSTANCE.convertUserToUserDTO(user);
-        return new ResponseEntity<>(userDTO, HttpStatus.CREATED);
+        var responseUserDTO = userService.save(userDTO);
+        return new ResponseEntity<>(responseUserDTO, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "{username}/{phone}", method = RequestMethod.DELETE)
-    public void deleteUser(@RequestParam("username") String username, @RequestParam("phone") String phone) {
-        var user = userService.findByUsernameAndPhone(username, phone);
-        var userDTO = UserConverter.INSTANCE.convertUserToUserDTO(user);
-        userService.deleteByUsernameAndPhone(userDTO.getUsername(),userDTO.getPhone());
+    public ResponseEntity<UserDTO> deleteUser(@RequestParam("username") String username, @RequestParam("phone") String phone) {
+        var deletedUser = userService.deleteByUsernameAndPhone(username,phone);
+        return new ResponseEntity<>(deletedUser, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> update(@PathVariable Long id, @RequestBody UserDTO userDTO) {
-
-        return new ResponseEntity<>(userService.update(userDTO,id),HttpStatus.OK);
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
+        var updateUserDTO = userService.update(userDTO,id);
+        return new ResponseEntity<>(updateUserDTO,HttpStatus.OK);
     }
 
 }
