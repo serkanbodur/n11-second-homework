@@ -40,7 +40,7 @@ public class User implements Serializable {
     @Column(name = "username", nullable = false, length = 20)
     private String username;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductComment> productCommentList;
 
 }
