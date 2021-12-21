@@ -10,5 +10,7 @@ public class ProductCommentDTO {
     private String comment;
     private Date commentDate;
     private Long productId;
+    private String productName;
     private Long userId;
+    private String userName;
 }
