@@ -17,10 +17,10 @@ This project is a project using Spring and Postgresql that can do basic CRUD ope
 ### Basic Usage
 
 - Run project once to create the tables and ddl operations
-- First you run project ddl-auto=create to create table then you run project again ddl-auto=update for ddl operations
 - All tables will create and table insert ddl operations will happen automatically as data.sql files
-- Apply the operations according to appropriate endpoints using Postman or Swagger
-
+- Apply the operations according to appropriate endpoints using Postman or Swagger 
+  - Note : If you want to run project twice, you will take duplicate value error, so you can just drop the tables
+  and run again the project to solve this 
 ### Project End Points
 
 [User Paths](second-homework/src/main/java/com/example/secondhomework/controller/UserController.java)

@@ -1,4 +1,3 @@
--- User Inserts
 INSERT INTO public.USER( ID, NAME, SURNAME, EMAIL, PHONE, USERNAME) VALUES ( 1 , 'First Name' , 'First Surname' , 'first@mail.com', '1111', 'first_username');
 INSERT INTO public.USER( ID, NAME, SURNAME, EMAIL, PHONE, USERNAME) VALUES ( 2 , 'Second Name' , 'Second Surname' , 'seconf@mail.com', '2222', 'second_username');
 INSERT INTO public.USER( ID, NAME, SURNAME, EMAIL, PHONE, USERNAME) VALUES ( 3 , 'Third Name' , 'Third Surname' , 'third@mail.com', '3333', 'third_username');
