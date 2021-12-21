@@ -16,20 +16,14 @@ public interface ProductCommentConverter {
 
     @Mapping(source = "user.id", target = "userId")
     @Mapping(source = "product.id", target = "productId")
-    @Mapping(source = "product.name", target = "productName")
-    @Mapping(source = "user.username", target = "userName")
     List<ProductCommentDTO> convertProductCommentsToCommentDTOs(List<ProductComment> productComments);
 
 
     @Mapping(source = "userId", target = "user.id")
     @Mapping(source = "productId", target = "product.id")
-    @Mapping(source = "productName", target = "product.name")
-    @Mapping(source = "userName", target = "user.username")
     ProductComment convertCommentDTOToProductComment(ProductCommentDTO productCommentDTO);
 
     @Mapping(source = "user.id", target = "userId")
     @Mapping(source = "product.id", target = "productId")
-    @Mapping(source = "product.name", target = "productName")
-    @Mapping(source = "user.username", target = "userName")
     ProductCommentDTO convertProductCommentToCommentDTO(ProductComment productComment);
 }
