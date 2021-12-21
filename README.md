@@ -17,6 +17,7 @@ This project is a project using Spring and Postgresql that can do basic CRUD ope
 ### Basic Usage
 
 - Run project once to create the tables and ddl operations
+- First you run project ddl-auto=create to create table then you run project again ddl-auto=update for ddl operations
 - All tables will create and table insert ddl operations will happen automatically as data.sql files
 - Apply the operations according to appropriate endpoints using Postman or Swagger
 

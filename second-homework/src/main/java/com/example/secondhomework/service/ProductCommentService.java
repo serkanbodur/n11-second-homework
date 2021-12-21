@@ -27,7 +27,7 @@ public class ProductCommentService {
         }
 
         List<ProductComment> productComments = productCommentDAO.findAllByUserId(userId);
-        List<ProductCommentDTO> productCommentDTOS = ProductCommentConverter.INSTANCE.convertProductCommentsToCommentDTOs(productComments);
+        List<ProductCommentDTO> productCommentDTOS = ProductCommentConverter.INSTANCE.convertProductCommentsToProductCommentDTOs(productComments);
         return productCommentDTOS;
     }
 
@@ -38,14 +38,14 @@ public class ProductCommentService {
         }
 
         List<ProductComment> productComments = productCommentDAO.findAllByProductId(productId);
-        List<ProductCommentDTO> productCommentDTOs = ProductCommentConverter.INSTANCE.convertProductCommentsToCommentDTOs(productComments);
+        List<ProductCommentDTO> productCommentDTOs = ProductCommentConverter.INSTANCE.convertProductCommentsToProductCommentDTOs(productComments);
         return productCommentDTOs;
     }
 
     public ProductCommentDTO save(ProductCommentDTO productCommentDTO) {
-        var comment = ProductCommentConverter.INSTANCE.convertCommentDTOToProductComment(productCommentDTO);
+        var comment = ProductCommentConverter.INSTANCE.convertProductCommentDTOToProductComment(productCommentDTO);
         comment = productCommentDAO.save(comment);
-        productCommentDTO = ProductCommentConverter.INSTANCE.convertProductCommentToCommentDTO(comment);
+        productCommentDTO = ProductCommentConverter.INSTANCE.convertProductCommentToProductCommentDTO(comment);
         return productCommentDTO;
     }
 
@@ -56,7 +56,7 @@ public class ProductCommentService {
         }
 
         var productComment = productCommentDAO.findById(id).orElse(null);
-        var commentDTO = ProductCommentConverter.INSTANCE.convertProductCommentToCommentDTO(productComment);
+        var commentDTO = ProductCommentConverter.INSTANCE.convertProductCommentToProductCommentDTO(productComment);
         productCommentDAO.deleteById(id);
         return commentDTO;
     }
