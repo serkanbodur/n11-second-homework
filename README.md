@@ -22,7 +22,7 @@ This project is a project using Spring and Postgresql that can do basic CRUD ope
 
 ### Project End Points
 
-[User Paths](../main/java/com/example/secondhomework/controller/UserController.java)
+[User Paths](second-homework/src/main/java/com/example/secondhomework/controller/UserController.java)
 
 | Request Method | Route                          | Request Body                                                                                                                              | Description                            |
 |----------------|--------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|
@@ -34,7 +34,7 @@ This project is a project using Spring and Postgresql that can do basic CRUD ope
 |     DELETE     | /api/users/{username}/{phone}  | {  }                                                                                                                                      | Delete a User using username and phone |
 
 
-[Comment Paths](../main/java/com/example/secondhomework/controller/ProductCommentController.java)
+[Comment Paths](second-homework/src/main/java/com/example/secondhomework/controller/ProductCommentController.java )
 
 | Request Method | Route                              | Request Body                                                                                    | Description                         |
 |----------------|------------------------------------|-------------------------------------------------------------------------------------------------|-------------------------------------|
